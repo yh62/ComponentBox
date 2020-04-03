@@ -142,7 +142,7 @@ export default {
 section{width:100%; height:100%; }
 header{display:flex; align-items:center; justify-content:space-between; background:#f8f9fa; height:40px; border-bottom: 1px solid #ced4da; padding:0 5px 0 10px;}
 header div{white-space: nowrap;}
-header input{width:200px; height:30px; background:#f8f9fa; margin:0 5px 0 10px; padding: 0 7px; border:1px solid #ced4da; border-radius:3px;}
+header input{width:200px; height:30px; background:#ffffff; margin:0 5px 0 10px; padding: 0 7px; border:1px solid #ced4da; border-radius:3px;}
 ::placeholder{color:#868e96;}
 header .menu-btn i{font-size:28px; color:#343a40;}
 header .add-btn i{font-size:30px; color:#343a40;}
