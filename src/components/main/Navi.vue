@@ -34,6 +34,7 @@ export default {
   name: 'Navi',
   components: { draggable },
   created() { this.$store.dispatch('INIT_DB'); },
+  mounted() { eventBus.$on('navi_added', (idx) => { this.active = idx; }); },
   data(){
     return{
       active:null,

@@ -34,7 +34,12 @@ export default new Vuex.Store({
             cursor.continue(); 
           }else{
             let request = db.navi().get(idx);
-            request.onsuccess = () => {  state.navi_list.unshift(request.result); }
+            request.onsuccess = () => {  
+              state.idx = idx;
+              state.navi_list.unshift(request.result);
+              state.contents_list = []; 
+              eventBus.$emit('navi_added', idx);
+            }
           }
         }
       }
