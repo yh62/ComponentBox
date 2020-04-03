@@ -1,4 +1,4 @@
-# ComponentBox (Vue+Electron+IndexedDB)
+# ComponentBox 
 
 ## Project setup
 ```
