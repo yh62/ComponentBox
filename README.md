@@ -24,5 +24,5 @@ npm run electron:serve
 ```
 npm run electron:build
 ```
-[![HitCount](http://hits.dwyl.com/yh/ComponentBox.svg)](http://hits.dwyl.com/yh/ComponentBox)
+[![HitCount](http://hits.dwyl.com/yh/ComponentBox-Core.svg)](http://hits.dwyl.com/yh/ComponentBox-Core)
 
