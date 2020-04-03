@@ -15,15 +15,13 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
+### Electron serve
 ```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
+npm run electron:serve
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Electron build
+```
+npm run electron:build
+```
+
