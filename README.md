@@ -1,4 +1,4 @@
-# componentbox
+# ComponentBox
 
 ## Project setup
 ```
