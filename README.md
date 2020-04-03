@@ -24,4 +24,5 @@ npm run electron:serve
 ```
 npm run electron:build
 ```
+[![HitCount](http://hits.dwyl.com/{username}/{project}.svg)](http://hits.dwyl.com/{username}/{project})
 
