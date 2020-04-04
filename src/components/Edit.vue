@@ -27,7 +27,7 @@
         <header class="icon"><i>settings</i> <span>SETTING</span></header>
         <section>
           <h3>Name</h3>
-          <input type="text" v-model.trim="settings.name" ref="name">
+          <input type="text" v-model.trim="settings.name" :class="{empty:settings.name == ''}" ref="name" />
           <h3>Head</h3>
           <vue-resizable
             :active="resizable.handler"
@@ -43,10 +43,10 @@
 
           <h3>Document Size</h3>
           <div class="btn-group">
-              <button type="button" :class="{active : settings.docSize == 'docSize-01'}" @click="settings.docSize = 'docSize-01'">Mobile (320px)</button>
-              <button type="button" :class="{active : settings.docSize == 'docSize-02'}" @click="settings.docSize = 'docSize-02'">Tablet Small (640px)</button>
-              <button type="button" :class="{active : settings.docSize == 'docSize-03'}" @click="settings.docSize = 'docSize-03'">Tablet Large (960px)</button>
-              <button type="button" :class="{active : settings.docSize == 'docSize-04'}" @click="settings.docSize = 'docSize-04'">Desktop (1280px)</button>
+              <button type="button" :class="{active : settings.docSize == 'docSize-01'}" @click="settings.docSize = 'docSize-01'"><span class="icon"><i>phone_android</i></span> <span>Mobile (320px)</span></button>
+              <button type="button" :class="{active : settings.docSize == 'docSize-02'}" @click="settings.docSize = 'docSize-02'"><span class="icon"><i>tablet_android</i></span> <span>Tablet (640px)</span></button>
+              <button type="button" :class="{active : settings.docSize == 'docSize-03'}" @click="settings.docSize = 'docSize-03'"><span class="icon"><i>laptop_windows</i></span> <span>Laptop (960px)</span></button>
+              <button type="button" :class="{active : settings.docSize == 'docSize-04'}" @click="settings.docSize = 'docSize-04'"><span class="icon"><i>tv</i></span> <span>Desktop (1280px)</span></button>
           </div>
         </section>
         <footer>
@@ -228,7 +228,9 @@ export default {
 .settings header span{vertical-align: text-bottom;}
 .settings section{padding:0 20px 15px;}
 .settings section h3{padding:20px 0 10px; font-weight:bold;}
-.settings section input{width:100%; height:35px; border:1px solid #ced4da; border-radius:3px; background:#ffffff; font-size:16px; padding:0 10px;}
+.settings section input{width:100%; height:35px; border:1px solid #ced4da; border-radius:3px; background:#f8f9fa; font-size:16px; padding:0 10px;}
+.settings section input.empty{background:#fff5f5;}
+.settings section input:focus{background:#f8f9fa}
 .settings section .head{width:100%!important;  }
 .settings section .head-inner{height:100%; border:1px solid #ced4da; border-radius:3px; overflow:hidden;}
 .settings section button{display:block; width:100%; height:35px; border:1px solid #ced4da; border-radius:3px; margin-bottom:10px; text-align:center; opacity:0.5; color:#212529;}
@@ -236,6 +238,9 @@ export default {
 .settings footer button{width:100%; background:#f8f9fa; border-top:1px solid #ced4da; height:40px; color:#ff6b6b;} 
 .settings footer button.disable{pointer-events:none;}
 .settings footer button.disable span{opacity:0.3;}
+.settings section button i{font-size:21px;}
+.settings section button:nth-of-type(3) i,
+.settings section button:nth-of-type(4) i{font-size:24px;}
 </style>
 
 <style> /* codemirror */ .vue-codemirror, .CodeMirror { height: 100%!important; } .CodeMirror.cm-s-default{ background-color:#f8f9fa; } </style>
