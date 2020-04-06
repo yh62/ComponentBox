@@ -4,6 +4,7 @@ Vue.use(Vuex)
 
 import { eventBus } from "@/main"
 import db from '@/store/indexedDB';
+
 export default new Vuex.Store({
   state: {
     navi_list:[],
@@ -215,8 +216,99 @@ export default new Vuex.Store({
         }
       }
       state.contents_list = payload;
-    }
+    },
 
+
+    //==========================================================
+
+
+    EXPORT_IMPORT:({state}, payload) => {
+      const fs = require("fs");
+      const {dialog} = require("electron").remote;
+      
+      switch(payload){
+        case 'export':
+          let count = 0;
+          let navi = [];
+          let contents = [];
+
+          db.navi().openCursor().onsuccess = e => { 
+            let cursor = e.target.result; 
+            if(cursor){navi.push(cursor.value); cursor.continue();}
+            else{count++; setData();}
+          }
+          db.contents().openCursor().onsuccess = e => { 
+            let cursor = e.target.result; 
+            if(cursor){contents.push(cursor.value); cursor.continue();} 
+            else{count++; setData();}
+          }
+          
+          function setData(){
+              if(count == 2){
+                let data = '["C546D425BCBF6",'+JSON.stringify(navi)+','+JSON.stringify(contents)+']';
+
+                dialog.showSaveDialog((fileName) => {
+                  if(fileName === undefined){ console.log('undefined'); return; }
+                  fs.writeFile(fileName, data, (err) => { 
+                    if(err){ console.log(err.message); return; } 
+                  });
+                });
+
+              }
+          }
+        break;
+        case 'import':
+          dialog.showOpenDialog((fileName) => {
+            if(fileName === undefined){ console.log(undefined); return; }
+
+            fs.readFile(fileName[0], 'utf-8', (err, data) => {
+              if(err){ console.log(err.message); return; }
+              try{
+                  let obj = JSON.parse(data);
+                  if(typeof obj === 'object' && obj[0] === 'C546D425BCBF6'){
+                    // navi
+                    let navi = obj[1];
+                    let naviRequest = db.navi().clear();
+                    naviRequest.onsuccess = () => {
+                      let list = [];
+                      for(let i = 0; i < navi.length; i++){
+                        db.navi().add({id:navi[i].id, name: navi[i].name, order: navi[i].order});
+                        list.push({id:navi[i].id, name: navi[i].name, order: navi[i].order});
+                      }
+                      list.sort(function(a, b){ return a.order > b.order ? -1 : 1; }); 
+                      state.navi_list = list; 
+                      state.idx = null; 
+                      eventBus.$emit('imported');
+                    } 
+                    // contents
+                    let contents = obj[2];
+                    let contsRequest = db.contents().clear();
+                    contsRequest.onsuccess = () => {
+                      for(let i = 0; i < contents.length; i++){
+                        db.contents().add({
+                          id: contents[i].id,
+                          idx: contents[i].idx,
+                          order: contents[i].order,
+                          name: contents[i].name,
+                          head: contents[i].head,
+                          docSize: contents[i].docSize,
+                          html: contents[i].html,
+                          css: contents[i].css,
+                          js: contents[i].js
+                        });
+                      }
+                      state.contents_list = []; 
+                    } 
+                    eventBus.$emit('dialog', null);
+                  }else{ console.log('Invalid File.'); 
+                }
+              }catch(e){ console.log(e); }
+            });
+          });
+        break;
+      }
+    }
+    
   },
   modules: { }
 })

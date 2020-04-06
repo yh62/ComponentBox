@@ -218,7 +218,7 @@ export default {
 #edit header button{width:35px; height:100%;}
 #edit header button i{color:#ffffff; font-size:27px;}
 #edit header button.exit-btn{ transform:rotateY(180deg);}
-#edit header button.settings-btn i{font-size:26px;}
+#edit header button.settings-btn i{font-size:24px;}
 #edit header button.layout-btn i{font-size:30px;}
 #edit section{width:100%; height:calc(100% - 40px); border-top:2px solid #222;}
 

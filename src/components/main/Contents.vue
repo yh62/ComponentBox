@@ -2,9 +2,14 @@
     <section>
         <header>
             <button type="button" class="menu-btn icon" @click="$emit('naviVisible')"><i>menu</i></button>
-            <div v-show="this.$store.state.idx != null">
-                <input type="text" v-model="search" placeholder="Search" @keyup="searchResult()"/>
-                <button type="button" class="add-btn icon" @click="add"><i>add</i></button>
+            <div>
+                <div v-show="this.$store.state.idx != null">
+                  <input type="text" v-model="search" placeholder="Search" @keyup="searchResult()"/>
+                  <button type="button" class="add-btn icon" @click="add"><i>add</i></button>
+                </div>
+                <div>
+                  <button type="button" class="expo-impo-btn icon" @click="exportImport()"><i>settings</i></button>
+                </div>
             </div>
         </header> 
         <article>
@@ -131,7 +136,8 @@ export default {
       doc.head.innerHTML = '<meta charset="utf-8">\n'+
                             META+LINK+STYLE+
                           '<style>\n*{margin:0; padding:0; box-sizing:border-box;}\n::-webkit-scrollbar{ width:0; height:0; }\n'+CSS+'</style>';
-    }
+    },
+    exportImport(){ eventBus.$emit('dialog', {type: 'expo_impo'}); }
   }
 
 }
@@ -141,11 +147,13 @@ export default {
 /* section */
 section{width:100%; height:100%; }
 header{display:flex; align-items:center; justify-content:space-between; background:#f8f9fa; height:40px; border-bottom: 1px solid #ced4da; padding:0 5px 0 10px;}
-header div{white-space: nowrap;}
+header div{display: flex;}
 header input{width:200px; height:30px; background:#ffffff; margin:0 5px 0 10px; padding: 0 7px; border:1px solid #ced4da; border-radius:3px;}
 ::placeholder{color:#868e96;}
 header .menu-btn i{font-size:28px; color:#343a40;}
 header .add-btn i{font-size:30px; color:#343a40;}
+header .expo-impo-btn{width:30px;}
+header .expo-impo-btn i{font-size:24px; color:#343a40;}
 
 article{background:#e9ecef; height:calc(100% - 40px); overflow-x:hidden; overflow-y:auto; padding:15px 10px;}
 article ul{width:100%; margin:0 auto;}

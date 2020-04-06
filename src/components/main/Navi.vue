@@ -34,7 +34,17 @@ export default {
   name: 'Navi',
   components: { draggable },
   created() { this.$store.dispatch('INIT_DB'); },
-  mounted() { eventBus.$on('navi_added', (idx) => { this.active = idx; }); },
+  mounted() { 
+    eventBus.$on('navi_added', (idx) => { this.active = idx; }); 
+    eventBus.$on('imported', (idx) => { 
+      this.active = null;
+      this.hover = null;
+      this.hover_temp = null;
+      this.more = null;
+      this.more_hover = true;
+      this.search = '';
+    }); 
+  },
   data(){
     return{
       active:null,
