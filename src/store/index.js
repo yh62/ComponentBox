@@ -25,23 +25,15 @@ export default new Vuex.Store({
         if(maxOrder <= list[i].order){ maxOrder = list[i].order+1; }
       }
 
-      let idx = -1;
       let request = db.navi().add({name: payload, order: maxOrder});
-      request.onsuccess = () =>{
-        db.navi().openCursor().onsuccess = e => {
-          var cursor = e.target.result;
-          if(cursor){ 
-            if(cursor.value.id > idx){ idx = cursor.value.id; }
-            cursor.continue(); 
-          }else{
-            let request = db.navi().get(idx);
-            request.onsuccess = () => {  
-              state.idx = idx;
-              state.navi_list.unshift(request.result);
-              state.contents_list = []; 
-              eventBus.$emit('navi_added', idx);
-            }
-          }
+      request.onsuccess = (e) => {
+        let request = db.navi().getAll();
+        request.onsuccess = () => {
+          let item = request.result[request.result.length -1];
+          state.idx = item.id;
+          state.navi_list.unshift(item);
+          state.contents_list = [];
+          eventBus.$emit('navi_added', item.id);
         }
       }
     },
@@ -107,16 +99,12 @@ export default new Vuex.Store({
     CONTENTS_LIST:({state}, payload) => {
       state.idx = payload;
 
-      var list = [];
-      var index = db.contents().index('idx');
-      var range = IDBKeyRange.only(payload);
-      index.openCursor(range).onsuccess = (e) => {
-          var cursor = e.target.result;
-          if(cursor){ list.push(cursor.value); cursor.continue(); }
-          else{ 
-            list.sort(function(a, b){ return a.order > b.order ? -1 : 1; }); 
-            state.contents_list = list;
-          }
+      let index = db.contents().index('idx');
+      let range = IDBKeyRange.only(payload);
+      let request = index.getAll(range);
+      request.onsuccess = () => {
+        let items = request.result.sort(function(a, b){ return a.order > b.order ? -1 : 1; }); 
+        state.contents_list = items;
       }
     },
 
@@ -138,22 +126,14 @@ export default new Vuex.Store({
         css: payload.css, 
         js: payload.js
       });
-      let idx = -1;
       request.onsuccess = (e) => {
-        var index = db.contents().index('idx');
-        var range = IDBKeyRange.only(payload.idx);
-        index.openCursor(range).onsuccess = (e) => {
-            var cursor = e.target.result;
-            if(cursor){
-              if(cursor.value.id > idx){ idx = cursor.value.id; }
-              cursor.continue();
-            }else{
-              let request = db.contents().get(idx);
-              request.onsuccess = () => {  
-                state.contents_list.unshift(request.result);
-                eventBus.$emit('edit', null);
-              }
-            }
+        let index = db.contents().index('idx');
+        let range = IDBKeyRange.only(payload.idx);
+        let request = index.getAll(range);
+        request.onsuccess = () => {
+          let item = request.result[request.result.length -1];
+          state.contents_list.unshift(item);
+          eventBus.$emit('edit', null);
         }
       }
     },
