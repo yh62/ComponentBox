@@ -232,15 +232,17 @@ export default new Vuex.Store({
           let navi = [];
           let contents = [];
 
-          db.navi().openCursor().onsuccess = e => { 
-            let cursor = e.target.result; 
-            if(cursor){navi.push(cursor.value); cursor.continue();}
-            else{count++; setData();}
+          let naviRequest = db.navi().getAll();
+          naviRequest.onsuccess = () => {
+            navi = naviRequest.result;
+            count++;
+            setData();
           }
-          db.contents().openCursor().onsuccess = e => { 
-            let cursor = e.target.result; 
-            if(cursor){contents.push(cursor.value); cursor.continue();} 
-            else{count++; setData();}
+          let contsRequest = db.contents().getAll();
+          contsRequest.onsuccess = () => {
+            contents = contsRequest.result;
+            count++;
+            setData();
           }
           
           function setData(){
@@ -253,7 +255,6 @@ export default new Vuex.Store({
                     if(err){ console.log(err.message); return; } 
                   });
                 });
-
               }
           }
         break;
