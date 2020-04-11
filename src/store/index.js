@@ -101,6 +101,7 @@ export default new Vuex.Store({
     //==========================================================
     
     CONTENTS_LIST:({state}, payload) => {
+      state.contents_list = [];
       state.idx = payload;
 
       let index = db.contents().index('idx');
