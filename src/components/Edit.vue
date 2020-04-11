@@ -12,7 +12,7 @@
       </header>
 
       <section>
-        <splitpanes class="default-theme" :horizontal="splitpanes.horizontal" :first-splitter="true">
+        <splitpanes class="default-theme" :horizontal="splitpanes.horizontal" :first-splitter="true" :dbl-click-splitter="false">
           <pane><codemirror v-model="codemirror.html.code" :options="codemirror.html.options" ref="html_code"/></pane>
           <pane><codemirror v-model="codemirror.css.code" :options="codemirror.css.options" ref="css_code"/></pane>
           <pane><codemirror v-model="codemirror.js.code" :options="codemirror.js.options" ref="js_code"/></pane>
