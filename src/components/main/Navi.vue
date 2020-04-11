@@ -116,7 +116,7 @@ nav ul li>button{position:absolute; top:50%; transform:translateY(-50%); z-index
 nav ul li .drag-btn{left:5px; opacity:0;}
 nav ul li .drag-btn i{font-size:16px; color:#fff; cursor:move;}
 nav ul li.hover .drag-btn,
-nav ul li.active .drag-btn{opacity:1;}
+nav ul li.active .drag-btn{opacity:1; transition:all 0.1s;}
 nav ul li[draggable=true] .drag-btn{opacity:1;}
 nav ul li .more-btn{right:5px; }
 nav ul li .more-btn i{font-size:21px; color:#fff;}
