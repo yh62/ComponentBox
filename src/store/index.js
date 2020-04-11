@@ -4,6 +4,7 @@ Vue.use(Vuex)
 
 import { eventBus } from "@/main"
 import db from '@/store/indexedDB';
+db.init();
 
 export default new Vuex.Store({
   state: {
@@ -13,10 +14,13 @@ export default new Vuex.Store({
   },
   mutations: { },
   actions: {
-    INIT_DB: ({state}) => {
-      state.navi_list = db.init();
+    NAVI_LIST: ({state}, payload) => {
+      let request = db.navi().getAll();
+      request.onsuccess = () => {
+        let list = request.result.sort(function(a, b){ return a.order > b.order ? -1 : 1; });
+        state.navi_list = list;
+      }
     },
-
     NAVI_ADD: ({state}, payload) => {
       let maxOrder = 0;
 

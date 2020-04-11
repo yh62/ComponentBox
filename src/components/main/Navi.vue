@@ -33,7 +33,6 @@ import draggable from 'vuedraggable'
 export default {
   name: 'Navi',
   components: { draggable },
-  created() { this.$store.dispatch('INIT_DB'); },
   mounted() { 
     eventBus.$on('navi_added', (idx) => { this.active = idx; }); 
     eventBus.$on('imported', (idx) => { 
