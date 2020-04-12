@@ -32,7 +32,7 @@
 
                 <!-- code-preview[END] -->
                 <div :class="{'code-preview':true, 'active':active == list.id}">
-                  <iframe @load="(el) => { iframe(el.target, key) }" :ref="'iframe'+key"></iframe>
+                  <iframe sandbox="allow-scripts allow-pointer-lock allow-same-origin" @load="(el) => { iframe(el.target, key) }" :ref="'iframe'+key"></iframe>
                   <div class="overlay" @click="selecte(list.id)"><span>CODE COPY</span></div>
                   <button type="button" class="icon" @click="preview(list.id)"><i>fullscreen</i></button>
                 </div>

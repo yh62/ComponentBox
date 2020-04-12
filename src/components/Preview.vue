@@ -15,7 +15,7 @@
           <h3>{{name}}</h3>
           <button type="button" class="close-btn icon" @click="Close"><i>close</i></button>
         </header>
-        <iframe ref="preview_iframe" @load="(el) => previewIframe(el.target)"></iframe>
+        <iframe sandbox="allow-scripts allow-pointer-lock allow-same-origin" ref="preview_iframe" @load="(el) => previewIframe(el.target)"></iframe>
         <span class="log" ref="log">{{resizable.log}}px</span>
       </div>
     </section>
