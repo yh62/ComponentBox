@@ -4,7 +4,7 @@
             <button type="button" class="menu-btn icon" @click="$emit('naviVisible')"><i>menu</i></button>
             <div>
                 <div v-show="this.$store.state.idx != null">
-                  <input type="text" @input="searchBind" placeholder="Search"/>
+                  <input type="text" @input="searchBind" ref="search" placeholder="Search"/>
                   <button type="button" class="add-btn icon" @click="add"><i>add</i></button>
                 </div>
                 <div>
@@ -78,7 +78,10 @@ export default {
   mounted(){
     eventBus.$on('update_iframe', (el) => { this.$refs[el][0].contentDocument.location.reload(true); }); 
     eventBus.$on('preview_overlay', () => { this.active = null; }); 
-    eventBus.$on('search_empty', () => { this.search = ''; });
+    eventBus.$on('search_empty', () => { 
+        this.search = ''; 
+        this.$refs.search.value = ''; 
+    });
   },
   computed:{
     more_btn(){
@@ -160,7 +163,7 @@ export default {
     listMore(){ this.$store.dispatch('CONTENTS_MORE'); },
     searchBind:_.debounce(function(e){
       this.search = e.target.value;
-    }, 700)
+    }, 500)
   }
 
 }
