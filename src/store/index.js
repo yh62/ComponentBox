@@ -8,9 +8,11 @@ db.init();
 
 export default new Vuex.Store({
   state: {
+    idx:null,
     navi_list:[],
     contents_list:[],
-    idx:null
+    pagination_init:7,
+    pagination:0
   },
   mutations: { },
   actions: {
@@ -103,6 +105,7 @@ export default new Vuex.Store({
     CONTENTS_LIST:({state}, payload) => {
       state.contents_list = [];
       state.idx = payload;
+      state.pagination = state.pagination_init;
 
       let index = db.contents().index('idx');
       let range = IDBKeyRange.only(payload);
@@ -203,6 +206,9 @@ export default new Vuex.Store({
       state.contents_list = payload;
     },
 
+    CONTENTS_MORE:({state}) => {
+      state.pagination += state.pagination_init;
+    },
 
     //==========================================================
 
@@ -293,6 +299,13 @@ export default new Vuex.Store({
           });
         break;
       }
+    },
+    PAGINATION_INIT:({state}) => {
+      let page = parseInt(localStorage.pagination);
+      if(page){ state.pagination_init = page; }
+    },
+    PAGINATION:({state}, payload) => {
+      state.pagination_init = payload;
     }
     
   },

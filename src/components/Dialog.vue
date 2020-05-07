@@ -30,9 +30,9 @@
           <div class="pagination">
             <h3 class="icon"><i>view_comfy</i> <span>PAGINATION</span></h3> 
             <div class="page">
-              <button type="button" class="icon"><i>keyboard_arrow_left</i></button>
-              <div>3</div>
-              <button type="button" class="icon"><i>keyboard_arrow_right</i></button>
+              <button type="button" class="icon" @click="pagination('decrement')"><i>keyboard_arrow_left</i></button>
+              <div>{{$store.state.pagination_init}}</div>
+              <button type="button" class="icon" @click="pagination('increment')"><i>keyboard_arrow_right</i></button>
             </div>
           </div>
           <div class="export-import">
@@ -59,7 +59,6 @@ export default {
   name: 'Dialog',
   props:['dialog'],
   created(){
-
       switch(this.dialog.type){
         case 'code_copy': 
           this.code.id = this.dialog.id;
@@ -134,14 +133,6 @@ export default {
   mounted(){ if(this.show.input){this.$refs.input.focus();} },
   data(){
     return{
-      code:{
-        id:null,
-        head:"",
-        html:"",
-        css:"",
-        js:"",
-        all:""
-      },
       headline_txt:null,
       headline_icon:null,
       info:null,
@@ -151,6 +142,14 @@ export default {
         info:false,
         code_copy:false,
         settings:false,
+      },
+      code:{
+        id:null,
+        head:"",
+        html:"",
+        css:"",
+        js:"",
+        all:""
       }
       
     }
@@ -205,8 +204,21 @@ export default {
         case 'export': this.$store.dispatch('EXPORT_IMPORT', 'export'); break;
         case 'import': this.$store.dispatch('EXPORT_IMPORT', 'import'); break;
       }
-      
+    },
+    pagination(type){
+        let page = this.$store.state.pagination_init;
+        switch(type){
+          case 'increment': 
+            if(page < 30){ page++; } 
+          break;
+          case 'decrement':
+            if(page > 1){ page--; } 
+          break;
+        }
+        localStorage.pagination = page;
+        this.$store.dispatch('PAGINATION', page);
     }
+      
 
   }
 

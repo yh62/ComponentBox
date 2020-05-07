@@ -4,7 +4,7 @@
             <button type="button" class="menu-btn icon" @click="$emit('naviVisible')"><i>menu</i></button>
             <div>
                 <div v-show="this.$store.state.idx != null">
-                  <input type="text" v-model="search" placeholder="Search" @keyup="searchResult()"/>
+                  <input type="text" v-model="search" placeholder="Search"/>
                   <button type="button" class="add-btn icon" @click="add"><i>add</i></button>
                 </div>
                 <div>
@@ -14,8 +14,8 @@
         </header> 
         <article>
             <draggable tag="ul" v-model="contents_list" handle=".drag-btn" @end="move" :class="grid">
-            <li v-for="(list, key) in contents_list" :key="list.id" :ref="'li'+key">
-              <div class="inner">
+            <li v-for="(list, key) in contents_list" :key="list.id" :ref="'li'+key" v-show="list.show">
+              <div class="inner" v-if="list.show">
                 <!-- header -->
                 <div :class="{header: true, hover: hover == list.id}" @mouseenter="hover = list.id" @mouseleave="hover = null">
                   <button type="button" class="drag-btn icon"><i>drag_handle</i></button>
@@ -37,6 +37,15 @@
                   <button type="button" class="icon" @click="preview(list.id)"><i>fullscreen</i></button>
                 </div>
                 <!-- code-preview[END] -->
+              </div>
+            </li>
+            <!-- more btn -->
+            <li v-show="more_btn" @click="listMore()" class="more-btn"> 
+              <div class="inner">
+                <div>
+                  <h3>MORE x{{$store.state.pagination_init}}</h3>
+                  <p>{{`${this.$store.state.pagination}/${this.$store.state.contents_list.length}`}}</p>
+                </div>
               </div>
             </li>
           </draggable>
@@ -62,28 +71,38 @@ export default {
         search:''
       }
   },
+  created(){
+    this.$store.dispatch('PAGINATION_INIT');
+  },
   mounted(){
     eventBus.$on('update_iframe', (el) => { this.$refs[el][0].contentDocument.location.reload(true); }); 
     eventBus.$on('preview_overlay', () => { this.active = null; }); 
     eventBus.$on('search_empty', () => { this.search = ''; });
   },
   computed:{
+    more_btn(){
+       let list = this.$store.state.contents_list;
+       let value = (this.$store.state.idx != null) && (list.length > this.$store.state.pagination) && (this.search == '');
+       return value;
+    },
     contents_list:{
       get(){
-        // this.search = '';
-        return this.$store.state.contents_list; 
+        let list = this.$store.state.contents_list;
+        for(let i = 0; i<list.length; i++){
+          if(this.search == ''){
+            if(i < this.$store.state.pagination){ list[i].show = true; }
+            else{ list[i].show = false; }
+          }else{
+            if(list[i].name.toLowerCase().indexOf(this.search.toLowerCase()) > -1){ list[i].show = true;}
+            else{ list[i].show = false;}
+          }
+        }
+        return list; 
       },
       set(value){ this.$store.dispatch('CONTENTS_MOVE', value); }
     }
   },  
   methods:{
-    searchResult(){
-      let list = this.$store.state.contents_list;
-      for(let i = 0; i < list.length; i++){
-        if(list[i].name.toLowerCase().indexOf(this.search.toLowerCase()) > -1){ this.$refs['li'+i][0].style.display = 'block'; }
-        else{ this.$refs['li'+i][0].style.display = 'none'; }
-      }
-    },
     add(){ eventBus.$emit('edit', {mode:'add'});},
     del(idx){ eventBus.$emit('dialog', {type:'contents_del', id:idx}); },
     update(idx){ eventBus.$emit('edit', {mode:'update', id:idx}); },
@@ -114,7 +133,6 @@ export default {
 
       el.setAttribute("class", DOC_SIZE);
       
-      // let doc = el.contentWindow.document;
       let doc = (el.contentWindow.document || el.contentDocument.document);
       doc.head.innerHTML = HEAD;
       
@@ -137,7 +155,8 @@ export default {
                             META+LINK+STYLE+
                           '<style>\n*{margin:0; padding:0; box-sizing:border-box;}\n::-webkit-scrollbar{ width:0; height:0; }\n'+CSS+'</style>';
     },
-    settings(){ eventBus.$emit('dialog', {type: 'settings'}); }
+    settings(){ eventBus.$emit('dialog', {type: 'settings'}); },
+    listMore(){ this.$store.dispatch('CONTENTS_MORE'); }
   }
 
 }
@@ -171,16 +190,20 @@ article ul.grid-04 li{width:25%;}
 article ul.grid-05 li{width:20%;}
 article ul li .inner{min-width:320px; width:100%; background:#fff; border-radius:3px; box-shadow:3px 3px 7px rgba(0,0,0,0.3); overflow:hidden;}
 article ul li[draggable="true"] .inner{box-shadow:7px 7px 7px rgba(0,0,0,0.4);}
+article ul li.more-btn .inner{display:flex; justify-content:center; align-items:center; text-align:center; height:200px; background:#fff; border-radius:3px; cursor:pointer; opacity:0.5; transition:opacity 0.2s;}
+article ul li.more-btn:hover .inner{opacity:1;}
+article ul li.more-btn .inner h3{font-weight:bold; font-size:16px; margin-bottom:7px;}
+article ul li.more-btn .inner p{font-size:14px;}
 
 article ul li .header{position:relative; z-index:7; width:100%; height:30px; padding:0 26px 0 10px; transition:all 0.1s; background:#343a40;}
-article ul li .header.hover{padding:0 26px 0 26px; transition-delay:0.3s;}
+article ul li .header.hover{padding:0 26px 0 26px; transition-delay:0.2s;}
 article ul li[draggable="true"] .header{padding:0 26px 0 26px;}
 article ul li[draggable="true"] .header h3{color:#ffe066}
 article ul li .header h3{color:#ffffff; line-height:30px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 article ul li .header>button{position:absolute; top:50%; transform:translateY(-50%); z-index:7;}
 article ul li .header>.drag-btn{left:5px; opacity:0; width:0; overflow:hidden;}
 article ul li .header>.drag-btn i{font-size:16px; color:#ffffff; cursor:move;}
-article ul li .header.hover>.drag-btn{opacity:1; width:16px; transition-delay:0.3s;}
+article ul li .header.hover>.drag-btn{opacity:1; width:16px; transition-delay:0.2s;}
 article ul li[draggable=true] .header>.drag-btn{opacity:1; width:16px; }
 article ul li .header>.more-btn{right:5px;}
 article ul li .header>.more-btn i{font-size:21px; color:#ffffff;}
