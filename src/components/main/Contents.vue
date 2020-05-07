@@ -4,7 +4,7 @@
             <button type="button" class="menu-btn icon" @click="$emit('naviVisible')"><i>menu</i></button>
             <div>
                 <div v-show="this.$store.state.idx != null">
-                  <input type="text" v-model="search" placeholder="Search"/>
+                  <input type="text" v-model.lazy="search" placeholder="Search"/>
                   <button type="button" class="add-btn icon" @click="add"><i>add</i></button>
                 </div>
                 <div>

@@ -1,5 +1,6 @@
 <template>
-  <div class="overaly">
+  <div class="dialog-wrap">
+    <div class="overlay" @click="cancel"></div>
     <div class="dialog">
       <header>
         <h3 class="icon"><i>{{headline_icon}}</i> <span>{{headline_txt}}</span></h3>
@@ -227,9 +228,10 @@ export default {
 </script>
 
 <style scoped>
-.overaly{ position:fixed; left:0; top:0; z-index:777; width:100%; height:100%; background:rgba(0,0,0,0.25); overflow-x: hidden; overflow-y: auto;}
+.dialog-wrap{ position:fixed; left:0; top:0; z-index:777; width:100%; height:100%; overflow-x: hidden; overflow-y: auto;}
+.overlay{width:100%; height:100%; background:rgba(0,0,0,0.25); }
 
-.dialog{width:100%; max-width:400px; background:#fff; margin:110px auto; border:1px solid #ced4da; border-radius:3px; box-shadow:3px 3px 7px rgba(0,0,0,0.25);}
+.dialog{position:absolute; left:50%; top:110px; z-index:777; transform:translateX(-50%); width:100%; max-width:400px; background:#fff; /*margin:110px auto;*/ border:1px solid #ced4da; border-radius:3px; box-shadow:3px 3px 7px rgba(0,0,0,0.25);}
 .dialog header{height:40px; padding:0 10px; display:flex; align-items:center; justify-content:space-between; background:#f8f9fa; border-bottom:1px solid #ced4da; font-weight:bold;}
 .dialog header h3{overflow:hidden; white-space:nowrap;}
 .dialog header h3 i{ vertical-align:middle; font-size:21px; margin-right:5px; font-weight:normal;}
