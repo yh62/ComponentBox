@@ -96,7 +96,7 @@ export default {
     },
     searchBind:_.debounce(function(e){
       this.search = e.target.value;
-    }, 700)
+    }, 500)
   }
 }  
 </script>
