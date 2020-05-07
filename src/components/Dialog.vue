@@ -26,9 +26,19 @@
           </div>
         </div>
 
-        <div class="impo-expo" v-if="show.expo_impo">
-          <button type="button" @click="exportImport('export')"><span>EXPORT (BACKUP)</span></button>
-          <button type="button" @click="exportImport('import')"><span>IMPORT</span></button>
+        <div class="settings" v-if="show.settings">
+          <div class="pagination">
+            <h3 class="icon"><i>view_comfy</i> <span>PAGINATION</span></h3> 
+            <div class="page">
+              <button type="button" class="icon"><i>keyboard_arrow_left</i></button>
+              <div>3</div>
+              <button type="button" class="icon"><i>keyboard_arrow_right</i></button>
+            </div>
+          </div>
+          <div class="export-import">
+            <button type="button" @click="exportImport('export')" class="icon"><i>unarchive</i> <span>EXPORT</span></button>
+            <button type="button" @click="exportImport('import')" class="icon"><i>archive</i> <span>IMPORT</span></button>
+          </div>
         </div>
       </section>
 
@@ -114,10 +124,10 @@ export default {
           this.show.info = true;
         break;
 
-        case 'expo_impo':
-          this.headline_txt = 'DB - EXPORT / IMPORT'; 
+        case 'settings':
+          this.headline_txt = 'SETTINGS'; 
           this.headline_icon = 'settings'; 
-          this.show.expo_impo = true;
+          this.show.settings = true;
         break;
       }
   },
@@ -140,7 +150,7 @@ export default {
         input:false,
         info:false,
         code_copy:false,
-        expo_impo:false,
+        settings:false,
       }
       
     }
@@ -229,13 +239,24 @@ export default {
 .dialog section .code-copy button.js-btn{color:#12b886; }
 .dialog section .code-copy .code-select{position:absolute; left:-100%; top:-100%; z-index:-7;}
 
-.dialog section .impo-expo{position:relative; overflow:hidden;}
-.dialog section .impo-expo button{display:block; width:100%; height:35px; border:1px solid #ced4da; border-radius:3px; margin-top:10px; text-align:center; 
-                                  background: #f8f9fa; opacity:1; transition:opacity 0.1s;}
-.dialog section .impo-expo button:first-child{margin:0;}
+.dialog section .settings{position:relative; overflow:hidden;}
+.dialog section .settings .pagination{display:flex; justify-content:space-between; align-items:center; margin-bottom:17px; padding:0 10px;} 
+.dialog section .settings .pagination h3{font-weight:bold;}
+.dialog section .settings .pagination h3 span{margin-left:5px; font-size:15px;}
+.dialog section .settings .pagination .page{display:flex; align-items:center; overflow:hidden; border-radius:5px;}
+.dialog section .settings .pagination .page div{width:30px; height:25px; display:flex; justify-content:center; align-items:center; border:1px solid #ced4da;}
+.dialog section .settings .pagination .page button{height:25px; background:#212529;}
+.dialog section .settings .pagination .page button i{color:#fff; font-size:20px;}
+
+.dialog section .settings .export-import button{display:block; width:100%; height:35px; border:1px solid #ced4da; border-radius:3px; margin-top:10px; text-align:center;  background: #f8f9fa; opacity:1; transition:opacity 0.1s;}
+.dialog section .settings .export-import button:first-child{margin:0;}
+.dialog section .settings .export-import button{display:flex; justify-content:center; align-items:center;}
+.dialog section .settings .export-import button i{margin-right:3px; padding-bottom:2px;}
+.dialog section .settings .export-import button span{font-weight:bold; min-width:62px; font-size:15px;}
+.dialog section .settings .export-import button:nth-of-type(2) span{text-indent:-3px;}
 
 .dialog footer{width:100%; display:flex; flex-wrap:wrap;}
-.dialog footer button{flex:1; background: #f8f9fa; border-top:1px solid #ced4da; border-right:1px solid #ced4da; height:40px;} 
+.dialog footer button{flex:1; background: #f8f9fa; border-top:1px solid #ced4da; border-right:1px solid #ced4da; height:40px; font-weight:bold;} 
 .dialog footer button:last-of-type{border-right:none;}
 .dialog footer button.cancel-btn{color:#339af0;}
 .dialog footer button.ok-btn{color:#ff6b6b;}

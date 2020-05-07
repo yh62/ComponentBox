@@ -235,7 +235,7 @@ export default {
 .settings section .head-inner{height:100%; border:1px solid #ced4da; border-radius:3px; overflow:hidden;}
 .settings section button{display:block; width:100%; height:35px; border:1px solid #ced4da; border-radius:3px; margin-bottom:10px; text-align:center; opacity:0.5; color:#212529;}
 .settings section button.active{background:#f8f9fa; font-weight:bold; opacity:1;}
-.settings footer button{width:100%; background:#f8f9fa; border-top:1px solid #ced4da; height:40px; color:#ff6b6b;} 
+.settings footer button{width:100%; background:#f8f9fa; border-top:1px solid #ced4da; height:40px; color:#ff6b6b; font-weight:bold;} 
 .settings footer button.disable{pointer-events:none;}
 .settings footer button.disable span{opacity:0.3;}
 .settings section button i{font-size:21px;}
