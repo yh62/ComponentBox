@@ -2,7 +2,7 @@
     <aside>
         <header><img src="@/assets/logo.svg" alt="" draggable="false"/> COMPONENT BOX</header> 
         <section>
-          <input type="text" v-model="search" placeholder="Search" @keyup="searchResult()"/>
+          <input type="text" @input="searchBind" placeholder="Search"/>
           <button type="button" class="add-btn icon" @click="add"><i>add</i></button>
         </section>
         <nav>
@@ -10,6 +10,7 @@
             <li v-for="(list, key) in navi_list" :key="list.id" :ref="'li'+key"
                 @mouseenter="hover = list.id" @mouseleave="hover = null"
                 :class="{hover: hover == list.id, active: active == list.id, more:more == list.id}"
+                v-show="list.show"
             >
               <button type="button" class="drag-btn icon"><i>drag_handle</i></button>
               <h3 @click="selecte(list.id)">{{ list.name }}</h3>
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import { eventBus } from "@/main"
 import draggable from 'vuedraggable'
 
@@ -56,18 +58,22 @@ export default {
   },
   computed:{
     navi_list:{
-      get(){ return this.$store.state.navi_list; },
+      get(){
+        let list = this.$store.state.navi_list;
+        for(let i = 0; i<list.length; i++){
+          if(this.search == ''){
+            list[i].show = true;
+          }else{
+            if(list[i].name.toLowerCase().indexOf(this.search.toLowerCase()) > -1){ list[i].show = true; }
+            else{ list[i].show = false; }
+          }
+        }
+        return list; 
+      },
       set(value){ this.$store.dispatch('NAVI_MOVE', value); }
     }
   },
   methods:{
-    searchResult(){
-      let list = this.$store.state.navi_list;
-      for(let i = 0; i < list.length; i++){
-        if(list[i].name.toLowerCase().indexOf(this.search.toLowerCase()) > -1){ this.$refs['li'+i][0].style.display = 'block'; }
-        else{ this.$refs['li'+i][0].style.display = 'none'; }
-      }
-    },
     add(){ eventBus.$emit('dialog', {type:'navi_add'}); },
     del(idx){ eventBus.$emit('dialog', {type:'navi_del', id:idx}); },
     update(idx, name){  eventBus.$emit('dialog', {type:'navi_update', id:idx, name:name}); },
@@ -87,7 +93,10 @@ export default {
     closeMore(){
       if(this.more_hover){ this.more = null; }
       document.querySelector('#main').removeEventListener('mousedown', this.closeMore);
-    }
+    },
+    searchBind:_.debounce(function(e){
+      this.search = e.target.value;
+    }, 700)
   }
 }  
 </script>

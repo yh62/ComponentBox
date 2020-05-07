@@ -4,7 +4,7 @@
             <button type="button" class="menu-btn icon" @click="$emit('naviVisible')"><i>menu</i></button>
             <div>
                 <div v-show="this.$store.state.idx != null">
-                  <input type="text" @keyup="searchBind" placeholder="Search"/>
+                  <input type="text" @input="searchBind" placeholder="Search"/>
                   <button type="button" class="add-btn icon" @click="add"><i>add</i></button>
                 </div>
                 <div>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import {eventBus} from "@/main"
 import draggable from 'vuedraggable'
 
@@ -157,13 +158,9 @@ export default {
     },
     settings(){ eventBus.$emit('dialog', {type: 'settings'}); },
     listMore(){ this.$store.dispatch('CONTENTS_MORE'); },
-    searchBind(e){
-      let value = e.target.value;
-      var setTime = setTimeout(() => {
-        this.search = value;
-        clearTimeout(setTime);
-      }, 100);
-    }
+    searchBind:_.debounce(function(e){
+      this.search = e.target.value;
+    }, 700)
   }
 
 }
