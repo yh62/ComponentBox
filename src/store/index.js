@@ -141,6 +141,7 @@ export default new Vuex.Store({
         request.onsuccess = () => {
           let item = request.result[request.result.length -1];
           state.contents_list.unshift(item);
+          eventBus.$emit('search_empty');
           eventBus.$emit('edit', null);
         }
       }

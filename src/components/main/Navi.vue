@@ -2,7 +2,7 @@
     <aside>
         <header><img src="@/assets/logo.svg" alt="" draggable="false"/> COMPONENT BOX</header> 
         <section>
-          <input type="text" @input="searchBind" placeholder="Search"/>
+          <input type="text" @input="searchBind" placeholder="Search" ref="search"/>
           <button type="button" class="add-btn icon" @click="add"><i>add</i></button>
         </section>
         <nav>
@@ -36,7 +36,11 @@ export default {
   name: 'Navi',
   components: { draggable },
   mounted() { 
-    eventBus.$on('navi_added', (idx) => { this.active = idx; }); 
+    eventBus.$on('navi_added', (idx) => { 
+      this.active = idx; 
+      this.search = '';
+      this.$refs.search.value = '';
+    }); 
     eventBus.$on('imported', (idx) => { 
       this.active = null;
       this.hover = null;
