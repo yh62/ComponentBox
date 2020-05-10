@@ -255,18 +255,17 @@ export default {
 
 .dialog section .settings{position:relative; overflow:hidden;}
 .dialog section .settings .pagination{display:flex; justify-content:space-between; align-items:center; margin-bottom:17px; padding:0 10px;} 
-.dialog section .settings .pagination h3{font-weight:bold;}
-.dialog section .settings .pagination h3 span{margin-left:5px; font-size:15px;}
+.dialog section .settings .pagination h3 span{margin-left:5px; font-size:15px; font-weight:bold;}
 .dialog section .settings .pagination .page{display:flex; align-items:center; overflow:hidden; border-radius:5px;}
 .dialog section .settings .pagination .page div{width:30px; height:25px; display:flex; justify-content:center; align-items:center; border:1px solid #ced4da;}
 .dialog section .settings .pagination .page button{height:25px; background:#212529;}
 .dialog section .settings .pagination .page button i{color:#fff; font-size:20px;}
 
-.dialog section .settings .export-import button{display:block; width:100%; height:35px; border:1px solid #ced4da; border-radius:3px; margin-top:10px; text-align:center;  background: #f8f9fa; opacity:1; transition:opacity 0.1s;}
+.dialog section .settings .export-import button{display:block; width:100%; height:35px; border:1px solid #ced4da; border-radius:3px; margin-top:10px; text-align:center; background: #f8f9fa;}
 .dialog section .settings .export-import button:first-child{margin:0;}
 .dialog section .settings .export-import button{display:flex; justify-content:center; align-items:center;}
-.dialog section .settings .export-import button i{margin-right:3px; padding-bottom:2px;}
-.dialog section .settings .export-import button span{font-weight:bold; min-width:62px; font-size:15px;}
+.dialog section .settings .export-import button i{margin-right:3px;;}
+.dialog section .settings .export-import button span{min-width:62px; font-size:14px;}
 .dialog section .settings .export-import button:nth-of-type(2) span{text-indent:-3px;}
 
 .dialog footer{width:100%; display:flex; flex-wrap:wrap;}

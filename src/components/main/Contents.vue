@@ -197,7 +197,7 @@ article ul.grid-04 li{width:25%;}
 article ul.grid-05 li{width:20%;}
 article ul li .inner{min-width:320px; width:100%; background:#fff; border-radius:3px; box-shadow:3px 3px 7px rgba(0,0,0,0.3); overflow:hidden;}
 article ul li[draggable="true"] .inner{box-shadow:7px 7px 7px rgba(0,0,0,0.4);}
-article ul li.more-btn .inner{display:flex; justify-content:center; align-items:center; text-align:center; height:200px; background:#fff; border-radius:3px; cursor:pointer; opacity:0.5; transition:opacity 0.2s;}
+article ul li.more-btn .inner{display:flex; justify-content:center; align-items:center; text-align:center; height:200px; background:#fff; border-radius:3px; cursor:pointer; opacity:0.6; transition:opacity 0.2s;}
 article ul li.more-btn:hover .inner{opacity:1;}
 article ul li.more-btn .inner h3{font-weight:bold; font-size:16px; margin-bottom:7px;}
 article ul li.more-btn .inner p{font-size:14px;}
