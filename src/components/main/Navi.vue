@@ -36,11 +36,17 @@ export default {
   name: 'Navi',
   components: { draggable },
   mounted() { 
-    eventBus.$on('navi_added', (idx) => { 
+    eventBus.$on('navi_add', (idx) => { 
       this.active = idx; 
       this.search = '';
       this.$refs.search.value = '';
     }); 
+    eventBus.$on('navi_change', (value) => { //update, del 
+      if(this.search != '' && this.$refs.search.value != ''){
+          this.search = value;
+          this.$refs.search.value = value;
+      }
+    });
     eventBus.$on('imported', (idx) => { 
       this.active = null;
       this.hover = null;

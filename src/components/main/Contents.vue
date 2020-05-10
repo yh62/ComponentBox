@@ -82,6 +82,12 @@ export default {
         this.search = ''; 
         this.$refs.search.value = ''; 
     });
+    eventBus.$on('contents_change', (value) => { // update, del
+      if(this.search != '' && this.$refs.search.value != ''){
+          this.search = value;
+          this.$refs.search.value = value;
+      }
+    }); 
   },
   computed:{
     more_btn(){

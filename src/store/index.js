@@ -39,7 +39,7 @@ export default new Vuex.Store({
           state.idx = item.id;
           state.navi_list.unshift(item);
           state.contents_list = [];
-          eventBus.$emit('navi_added', item.id);
+          eventBus.$emit('navi_add', item.id);
         }
       }
     },
@@ -58,6 +58,7 @@ export default new Vuex.Store({
               var cursor = e.target.result;
               if(cursor){ cursor.delete(); cursor.continue(); }
               else{
+                eventBus.$emit('navi_change', '');
                 if(state.idx == payload){
                   state.contents_list = [];
                   state.idx = null;
@@ -78,6 +79,7 @@ export default new Vuex.Store({
           for(let i = 0; i< list.length; i++){
             if(list[i].id == payload.id){ state.navi_list[i].name = payload.name; break;}
           }
+          eventBus.$emit('navi_change', payload.name);
         }
       }
     },
@@ -154,6 +156,7 @@ export default new Vuex.Store({
           for(let i = 0; i< list.length; i++){
             if(list[i].id == payload){ state.contents_list.splice(i, 1); break;}
           }
+          eventBus.$emit('contents_change', '');
       }
     },
 
@@ -181,10 +184,10 @@ export default new Vuex.Store({
               state.contents_list[i].css = payload.css;
               state.contents_list[i].js = payload.js;
               eventBus.$emit('update_iframe', 'iframe'+i);
-              
               break;
             }
           }
+          eventBus.$emit('contents_change', payload.name);
           eventBus.$emit('edit', null);
         }
       }
