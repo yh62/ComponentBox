@@ -1,5 +1,7 @@
 # ComponentBox 
 
+![](/yh62/ComponentBox/blob/master/intro.gif?raw=true)
+
 ## Project setup
 ```
 npm install
